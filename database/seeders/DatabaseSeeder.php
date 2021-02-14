@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
       ]);
 
 
-        foreach(range(1,10)as $index) {
+        foreach(range(1,50)as $index) {
 
 
             //'first_name', 'second_name','last_name','id_number','email_address','phone_number','nationality','city','address','description'

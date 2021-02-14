@@ -9,6 +9,17 @@ use Illuminate\Support\Facades\DB;
 
 class BorrowerController extends Controller
 {
+
+    /**
+     * Contructor Method that checks if a user is Authenticated
+     */
+
+        public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +32,7 @@ class BorrowerController extends Controller
         //$data = Borrower::latest()->paginate(5);
        // $data = Borrower::latest()->orderBy('id', 'asc')->paginate(5);
 
-       $data= DB::table('borrowers')->orderBy('id', 'asc')->paginate(5);
+       $data= DB::table('borrowers')->orderBy('id', 'desc')->paginate(10);
 
         return view('borrowers.index',compact('data'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
@@ -82,6 +93,8 @@ class BorrowerController extends Controller
     public function show(Borrower $borrower)
     {
         //
+
+        return view('borrowers.show',compact('borrower'));
     }
 
     /**
