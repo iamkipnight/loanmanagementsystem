@@ -30,3 +30,10 @@ require __DIR__.'/auth.php';
 
 
 Route::resource('borrowers', BorrowerController::class);
+
+Route::get('/company', 'BorrowersController@index')->name('borrower.index');
+Route::get('/companies', 'CompanyController@get_company_data')->name('data');
+Route::get('/addcompany', 'CompanyController@view')->name('company.view');
+Route::post('/addcompany', 'CompanyController@Store')->name('company.store');
+Route::delete('/addcompany/{id}', 'CompanyController@destroy')->name('company.destroy');
+Route::get('/addcompany/{id}/edit', 'CompanyController@update')->name('company.update');

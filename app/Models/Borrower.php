@@ -11,6 +11,6 @@ class Borrower extends Model
 
 
     protected $fillable = [
-        'first_name', 'secong_name','last_name','id_number','description'
+        'first_name', 'second_name','last_name','id_number','email_address','phone_number','nationality','city','address','description'
     ];
 }

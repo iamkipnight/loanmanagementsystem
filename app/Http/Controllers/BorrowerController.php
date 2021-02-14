@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Borrower;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class BorrowerController extends Controller
 {
@@ -16,13 +18,19 @@ class BorrowerController extends Controller
     {
         //
 
-        $data = Borrower::latest()->paginate(5);
+        //$data = Borrower::latest()->paginate(5);
+       // $data = Borrower::latest()->orderBy('id', 'asc')->paginate(5);
+
+       $data= DB::table('borrowers')->orderBy('id', 'asc')->paginate(5);
 
         return view('borrowers.index',compact('data'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
 
 
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -44,11 +52,19 @@ class BorrowerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //'first_name', 'second_name','last_name','id_number','email_address','phone_number','nationality','city','address','description'
 
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'first_name' => 'required',
+            'second_name' => 'required',
+            'second_name' => 'required',
+            'id_number' => 'required',
+            'email_address',
+            'phone_number' => 'required',
+            'nationality',
+            'city',
+            'address',
+            'description'
         ]);
 
         Borrower::create($request->all());
