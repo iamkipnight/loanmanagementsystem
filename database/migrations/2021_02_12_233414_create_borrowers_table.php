@@ -19,12 +19,12 @@ class CreateBorrowersTable extends Migration
             $table->string('second_name');
             $table->string('last_name');
             $table->string('id_number')->unique();
-            $table->string('email_address')->unique();
+            $table->string('email_address')->nullable()->unique();
             $table->string('phone_number')->unique();
-            $table->string('nationality');
+            $table->string('nationality')->nullable();
             $table->string('city');
-            $table->string('address');
-            $table->text('description');
+            $table->string('address')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

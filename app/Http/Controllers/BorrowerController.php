@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Borrower;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use DataTables;
 
 class BorrowerController extends Controller
 {
@@ -25,21 +26,31 @@ class BorrowerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
 
-        //$data = Borrower::latest()->paginate(5);
-       // $data = Borrower::latest()->orderBy('id', 'asc')->paginate(5);
+        $borrowers = Borrower::latest()->get();
 
-       $data= DB::table('borrowers')->orderBy('id', 'desc')->paginate(10);
+        if ($request->ajax()) {
+            $data = Borrower::latest()->get();
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
 
-        return view('borrowers.index',compact('data'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+                           $btn = '<a style="background-color:#57a0ce; width: 55px;" href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editBorrower">Edit</a>';
 
+                           $btn = $btn.' <a style="background-color:#ffc7c7; width: 55px;" href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteBook">Delete</a>';
+
+                           $btn = $btn.' <a style="background-color:#50d56e; width: 55px;" href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Details" class="details btn btn-success btn-sm viewBook">Details</a>';
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+
+        return view('borrowers.index',compact('borrowers'));
 
     }
-
 
 
 
@@ -63,15 +74,13 @@ class BorrowerController extends Controller
      */
     public function store(Request $request)
     {
-        //'first_name', 'second_name','last_name','id_number','email_address','phone_number','nationality','city','address','description'
-
         $request->validate([
-            'first_name' => 'required',
-            'second_name' => 'required',
-            'second_name' => 'required',
-            'id_number' => 'required',
+            'first_name',
+            'second_name',
+            'last_name',
+            'id_number',
             'email_address',
-            'phone_number' => 'required',
+            'phone_number',
             'nationality',
             'city',
             'address',
@@ -79,6 +88,7 @@ class BorrowerController extends Controller
         ]);
 
         Borrower::create($request->all());
+
 
         return redirect()->route('borrowers.index')
                         ->with('success','Post created successfully.');

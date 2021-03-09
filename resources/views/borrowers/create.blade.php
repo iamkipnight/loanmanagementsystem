@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row" style="background:#8ED0F4">
+<div class="row" style="background:#E7EBE0FF">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h2 style="font-family:'Marcellus SC', serif;">Add New Borrower</h2>
+            <h4 style="font-family:'Marcellus SC', serif;">Add New Borrower</h4>
         </div>
         <div class="pull-right">
             <a class="btn btn-primary" href="{{ route('borrowers.index') }}"> Back</a>
