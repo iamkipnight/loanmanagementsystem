@@ -97,19 +97,43 @@
        $('#modelHeading').html("Add New Borrower");
        $('#add-new-borrower-modal').modal('show');
    });
+
+   //edit a borrowers details
    $('body').on('click', '.editBorrower', function () {
 
         var borrower_id = $(this).data('id');
-        alert(borrower_id);
-        $.get("{{ route('borrowers.index') }}" +'/' + borrower_id +'/edit', function (data) {
-            $('#modelHeading').html("Edit Book");
-            $('#saveBtn').val("edit-book");
-            $('#ajaxModel').modal('show');
-            $('#book_id').val(data.id);
-            $('#title').val(data.title);
-            $('#author').val(data.author);
-        })
+       // alert(borrower_id);
+
+        $.ajax({
+            url: "{{ route('borrowers.index') }}"+'/'+borrower_id+'/edit',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+
+              // alert(data[0]['id']);
+
+                $('#modelHeading').html("Edit "+" "+data[0]['first_name']);
+                $('#saveBtn').val("edit-book");
+                $('#add-new-borrower-modal').modal('show');
+                $('#saveBtn').val("edit-book");
+
+                $('#first_name').val(data[0]['first_name']);
+                $('#second_name').val(data[0]['second_name']);
+                $('#last_name').val(data[0]['last_name']);
+                $('#id_number').val(data[0]['id_number']);
+                $('#email_address').val(data[0]['email_address']);
+                $('#phone_number').val(data[0]['phone_number']);
+                $('#nationality').val(data[0]['nationality']);
+                $('#city').val(data[0]['city']);
+                $('#address').val(data[0]['address']);
+                $('#description').val(data[0]['description']);
+        }
+        });
+
     });
+
+
+
    $('#saveBtn').click(function (e) {
        e.preventDefault();
        $(this).html('Save');

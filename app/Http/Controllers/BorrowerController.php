@@ -117,7 +117,8 @@ class BorrowerController extends Controller
     {
         //
 
-        return view('borrowers.show',compact('borrower'));
+        $borrower = Borrower::find($borrower);
+        return response()->json($borrower);
     }
 
     /**
@@ -137,7 +138,7 @@ class BorrowerController extends Controller
             'description' => 'required',
         ]);
 
-        $post->update($request->all());
+        $borrower->update($request->all());
 
         return redirect()->route('posts.index')
                         ->with('success','Post updated successfully');
@@ -153,9 +154,9 @@ class BorrowerController extends Controller
     {
         //
 
-        $post->delete();
+        $borrower->delete();
 
-        return redirect()->route('posts.index')
+        return redirect()->route('borrowers.index')
                         ->with('success','Post deleted successfully');
     }
 }
